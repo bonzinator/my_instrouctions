@@ -1,0 +1,58 @@
+---
+# tasks file for docker
+- name: Update and upgrade Ubuntu  
+  apt: 
+    update_cache: true
+    upgrade: dist
+    cache_valid_time: 3600
+    force_apt_get: true
+
+- name: Install the packages for Apps
+  apt: 
+    name: "{{ item }}"
+    state: latest
+    update_cache: yes
+  with_items: 
+    - libicu70
+    - ca-certificates
+    - apt-transport-https
+    - software-properties-common
+    - unzip
+    - acl
+
+- name: Add Docker GPG apt Key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Add Docker Repository
+  apt_repository:
+    repo: deb https://download.docker.com/linux/ubuntu focal stable
+    state: present
+
+- name: Install docker
+  apt:
+    name: "{{item}}"
+    state: latest
+    update_cache: yes
+  loop:
+    - docker-ce
+    - docker-ce-cli
+    - containerd.io
+
+- name: Check docker is active
+  service:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: Ensure group "docker" exists
+  ansible.builtin.group:
+    name: docker
+    state: present
+
+- name: Adding bonzi to docker group
+  user:
+    name: "{{ user_name }}"
+    groups: docker
+    append: yes

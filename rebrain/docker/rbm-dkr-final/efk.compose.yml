@@ -1,0 +1,59 @@
+version: "3"
+services:
+  fluentd:
+    build: ./fluentd
+    restart: unless-stopped
+    environment:
+      - FLUENTD_CONF=fluentd.conf
+      - "host=rbmdkrfinalefk-opensearch-1"
+    depends_on:
+      - opensearch
+    volumes:
+      - ./fluentd/conf:/fluentd/etc
+    networks:
+      - network
+    links:
+      - "opensearch"
+    ports:
+      - "24224:24224"
+      - "24224:24224/udp"
+
+
+  opensearch:
+    image: opensearchproject/opensearch:latest
+    restart: unless-stopped
+    environment:
+      - "discovery.type=single-node"
+      - "plugins.security.disabled=true"
+      - "OPENSEARCH_JAVA_OPTS=-Xms1024m -Xmx1024m"
+    expose:
+      - "9200"
+    ports:
+      - "9200:9200"
+      - "9600:9600"
+    networks:
+      - network
+
+  osd:
+    build: ./osd
+    restart: unless-stopped
+    environment:
+      NODE_OPTIONS: '--max-old-space-size=512'
+      OPENSEARCH_HOSTS: '["http://rbmdkrfinalefk-opensearch-1:9200"]'
+    depends_on:
+      - opensearch
+      - fluentd
+    links:
+      - "opensearch"
+    ports:
+      - "5601:5601"
+    networks:
+      - network
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+
+networks:
+  network:
+    external: true

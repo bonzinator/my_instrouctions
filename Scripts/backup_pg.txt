@@ -1,0 +1,56 @@
+#!/bin/bash
+#configuration settings
+
+POSTGRES_DB=directumrx_test
+CURRENT_DATE=$(date +%Y-%m-%d)
+BACKUPS_PATH=/srv/pg_backup
+
+EXPIRE_DAYS=7
+SCAN_DIR=$BACKUPS_PATH
+FILES=$(find $SCAN_DIR -type f)
+LOG_FILE=pgsql.log
+LOGS_PATH=$BACKUPS_PATH/logs/$CURRENT_DATE'_'$LOG_FILE
+####################################
+#Backup PostgreSQL database
+
+mkdir $BACKUPS_PATH/logs
+touch $BACKUPS_PATH/logs/$CURRENT_DATE'_'$LOG_FILE
+cd "$BACKUP_FOLDER"
+echo $(date "+%d-%m-%Y") $(date "+%H:%M") 'Creating PostgreSQL backups...' >> $LOGS_PATH
+
+
+
+su - postgres -c "pg_dump $POSTGRES_DB > $BACKUPS_PATH/$POSTGRES_DB'_'$CURRENT_DATE'.dump'"
+tar -cf - $BACKUPS_PATH/$POSTGRES_DB'_'$CURRENT_DATE'.dump' | gzip -9 > $BACKUPS_PATH/$POSTGRES_DB'_'$CURRENT_DATE'.tar.gz'
+rm $BACKUPS_PATH/$POSTGRES_DB'_'$CURRENT_DATE'.dump'
+
+echo $(date "+%d-%m-%Y") $(date "+%H:%M") 'Done' >> $LOGS_PATH
+
+
+####################################
+#Delited old backup PostgreSQL database
+
+for file in $FILES;
+   do
+         timestamp=$(date -r $file +%Y%m%d);
+         echo $(date "+%d-%m-%Y") $(date "+%H:%M") "Checking old backups" >> $LOGS_PATH;
+         date_file=$(date -d "$timestamp" +%j);
+         date_now=$(date +%j);
+         DAYS=$(expr "$date_now" - "$date_file");
+
+         if [ "$DAYS" -ge "$EXPIRE_DAYS" ]
+           then
+                echo $(date "+%d-%m-%Y") $(date "+%H:%M") "Deleting $file file..." >> $LOGS_PATH;
+                rm "$file";
+         fi
+   done
+
+
+#del_file=$(find $BACKUPS_PATH -type f -mtime $EXPIRE_DAYS) 
+#
+#for i in $del_file;
+#   do
+#         rm "$i";
+#   done
+
+

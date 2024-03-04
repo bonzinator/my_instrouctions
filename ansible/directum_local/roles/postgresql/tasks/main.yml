@@ -1,0 +1,79 @@
+---
+# tasks file for postresql
+
+- name: Update and upgrade Ubuntu  
+  apt: 
+    update_cache: true
+    upgrade: dist
+    cache_valid_time: 3600
+    force_apt_get: true
+
+- name: Install the packages for Apps
+  apt: 
+    name: "{{ item }}"
+    state: latest
+    update_cache: yes
+  with_items: 
+    - libicu70
+    - ca-certificates
+    - apt-transport-https
+    - software-properties-common
+    - unzip
+    - python3-pip
+    - acl
+
+- name: Install psycopg2-binary python package
+  ansible.builtin.pip:
+    name: psycopg2-binary
+
+- name: Install postgresql
+  apt:
+    name: "{{item}}"
+    state: latest
+    update_cache: yes
+  loop:
+    - postgresql-14
+    - postgresql-contrib
+
+- name: "Start and enable postgresql"
+  ansible.builtin.service: 
+    name: postgresql
+    state: started 
+    enabled: yes
+  
+- name: Create user postgresql
+  become_user: postgres
+  community.postgresql.postgresql_user:
+    name: "{{ postgresql_user }}"
+    password: "{{ postgresql_pass }}"
+    role_attr_flags: SUPERUSER
+
+- name: Create a new database 
+  become_user: postgres
+  community.postgresql.postgresql_db:
+    name: "{{ postgresql_database }}"
+
+- name: Grant privs 
+  become_user: postgres
+  community.postgresql.postgresql_privs:
+    database: "{{ postgresql_database }}"
+    state: present
+    privs: ALL
+    roles: "{{ postgresql_user }}"
+    type: database
+    grant_option: true
+
+- name: replace pg_hba.conf.j2
+  template:
+    src: pg_hba.conf.j2
+    dest: /etc/postgresql/14/main/pg_hba.conf
+  
+- name: replace postgresql.conf.j2
+  template:
+    src: postgresql.conf.j2
+    dest: /etc/postgresql/14/main/postgresql.conf 
+
+- name: "Start and enable postgresql"
+  ansible.builtin.service: 
+    name: postgresql
+    state: restarted   

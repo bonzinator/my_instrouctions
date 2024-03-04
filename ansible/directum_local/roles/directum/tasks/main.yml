@@ -1,0 +1,100 @@
+---
+# tasks file for directum
+
+- name: Update and upgrade Ubuntu  
+  apt: 
+    update_cache: true
+    upgrade: dist
+    cache_valid_time: 3600
+    force_apt_get: true
+
+- name: Install the packages for Apps
+  apt: 
+    name: "{{ item }}"
+    state: latest
+    update_cache: yes
+  with_items: 
+    - libicu70
+    - ca-certificates
+    - apt-transport-https
+    - software-properties-common
+    - unzip
+    - acl
+
+- name: Create a directory DirectumLauncher
+  ansible.builtin.file:
+    path: /srv/{{ directum_dir }}
+    state: directory
+
+- name: Copy file App 
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: /srv/{{ directum_dir }}
+  with_items:
+    - DirectumLauncher.tar.gz
+    - DirectumRX.tar.gz
+    - DockerImages.tar.gz
+    - Platform.tar.gz
+    - Repacking.zip
+    - WebHelp.zip
+
+- name: Extract DirectumLauncher {{directum_dir}}
+  ansible.builtin.unarchive:
+    src: /srv/{{ directum_dir }}/DirectumLauncher.tar.gz
+    dest: /srv/{{ directum_dir }}
+    remote_src: true 
+
+- name: Run command @components add_all@
+  ansible.builtin.command:
+    chdir: /srv/{{ directum_dir }}
+    cmd: ./do.sh components add_all
+
+- name: Run command @set_inotify_instances_limit@
+  ansible.builtin.command:
+    chdir: /srv/{{ directum_dir }}
+    cmd: ./do.sh set_inotify_instances_limit
+
+- name: replace config.yml.j2
+  ansible.builtin.template:
+    src: config.yml.j2
+    dest: /srv/{{ directum_dir }}/etc/config.yml
+
+- name: Create a directory DirectumLauncher
+  ansible.builtin.file:
+    path: /srv/{{ home_path_local }}
+    state: directory
+
+- name: Run command @do.sh mongodb up@
+  ansible.builtin.command:
+    chdir: /srv/{{ directum_dir }}
+    cmd: ./do.sh mongodb up
+
+- name: Run command @generate_data_protection_cert_from_config@
+  ansible.builtin.command:
+    chdir: /srv/{{ directum_dir }}
+    cmd: ./do.sh generate_data_protection_cert_from_config
+
+- name: Run command @do.sh db up@
+  ansible.builtin.command:
+    chdir: /srv/{{ directum_dir }}
+    cmd: ./do.sh db up
+
+- name: Run command @do.sh platform install@
+  ansible.builtin.command:
+    chdir: /srv/{{ directum_dir }}
+    cmd: ./do.sh platform install
+
+- name: Run command @do.sh mongodb up@
+  ansible.builtin.command:
+    chdir: /srv/{{ directum_dir }}
+    cmd: ./do.sh mongodb up
+
+- name: Run command @do.sh webhelp install@
+  ansible.builtin.command:
+    chdir: /srv/{{ directum_dir }}
+    cmd: ./do.sh webhelp install
+
+- name: Run command @do.sh rx install@
+  ansible.builtin.command:
+    chdir: /srv/{{ directum_dir }}
+    cmd: ./do.sh rx install

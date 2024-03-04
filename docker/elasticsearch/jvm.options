@@ -1,0 +1,14 @@
+## JVM configuration
+
+# То, сколько необходимы выдать джава машине оперативной памяти
+# В нашем случае 4 гига оперативы хватит с головой
+-Xms4g
+-Xmx4g
+
+-XX:+UseConcMarkSweepGC
+-XX:CMSInitiatingOccupancyFraction=75
+-XX:+UseCMSInitiatingOccupancyOnly
+-Des.networkaddress.cache.ttl=60
+-Des.networkaddress.cache.negative.ttl=10
+-XX:+AlwaysPreTouch
+-Xss1m

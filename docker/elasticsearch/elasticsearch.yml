@@ -1,0 +1,6 @@
+path.data: /var/lib/elasticsearch
+path.logs: /var/log/elasticsearch
+cluster.name: "rx-elk-docker"
+network.host: 0.0.0.0
+http.port: 9200
+discovery.type: single-node

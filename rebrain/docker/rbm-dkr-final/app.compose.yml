@@ -1,0 +1,55 @@
+version: "3"
+services:
+  app:
+    build: ./
+    restart: unless-stopped
+    networks:
+      - network
+    environment:
+      - TITLE=Rebrain Speed
+      - MODE=frontend
+      - PASSWORD=1234
+      - TELEMETRY=true
+      - ENABLE_ID_OBFUSCATION=true
+      - REDACT_IP_ADDRESSES=false
+    volumes:
+      - ./docker/servers.json:/servers.json
+      - ./sqlite:/database/
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+
+  sqlite:
+    image: nouchka/sqlite3:latest
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+    networks:
+      - network
+    depends_on:
+      - app
+    volumes:
+      - ./sqlite:/root/db
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+
+  proxy:
+    image: caddy
+    ports:
+      - 8080:80
+    restart: unless-stopped
+    networks:
+      - network
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+
+networks:
+  network:
+    external: true

@@ -1,0 +1,59 @@
+version: "3"
+services:
+  fluentd:
+    image: fluentd
+    links:
+      - "elasticsearch"
+    ports:
+      - "24224:24224"
+      - "24224:24224/udp"
+    networks:
+      - net-traefik
+    deploy:
+      mode: replicated
+      replicas: 3
+      placement:
+        constraints:
+          - "node.labels.TAG==stage"
+
+  elasticsearch:
+    image: elasticsearch:7.17.17
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    expose:
+      - 9200
+    ports:
+      - "9200:9200"
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+    volumes:
+      - /mnt/test:/var/lib/elasticsearch/nodes
+    networks:
+      - net-traefik
+
+  kibana:
+    image: kibana:7.17.17
+    links:
+      - "elasticsearch"
+    ports:
+      - "5601:5601"
+    networks:
+      - net-traefik
+    deploy:
+      labels:
+        - "traefik.enable=true"
+        - "traefik.protocol=http"
+        - "traefik.http.routers.kibana.rule=Host(\"kibana.x.x.x.x.nip.io\")"
+        - "traefik.http.services.kibana.loadbalancer.server.port=5601"
+#        - "traefik.http.middlewares.test-auth.basicauth.users=rebrainme:1075ae1c6c20a6d4cb5bc53c10b03ad5"    
+
+networks:
+  net-traefik:
+    external: true
+volumes:
+  gfs1:
+    driver: glusterfs
+#    name: "gfs/vol1"

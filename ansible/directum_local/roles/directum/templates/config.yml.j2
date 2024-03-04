@@ -1,0 +1,120 @@
+
+variables:
+    host_fqdn: '{{ my_ip }}'
+    home_path: '{{ home_path_local }}'
+    http_port: '{{ http_port_ }}'
+    https_port: '{{ https_port_ }}'
+    protocol: '{{ web_protocol }}'
+logs_path: &logs
+    LOGS_PATH: '/srv/{{ home_path_local }}/logs'
+common_config: &base
+    <<: *logs
+    DATABASE_ENGINE: 'postgres'
+    CONNECTION_STRING: 'Server={{ postgresql_ip }};Port={{ postgresql_port }};Database={{ postgresql_database }};User Id={{ postgresql_user }};Password={{ postgresql_pass }}'
+    QUEUE_CONNECTION_STRING: 'hostName={{ rabbit_ip }};port={{ rabbit_port }};virtualhost={{ rabbit_vhost }};userName={{ rabbit_user }};password={{ rabbit_pass }};exchange=RxExchange'
+    MONGODB_CONNECTION_STRING: 'mongodb://{{ mongo_user }}:{{ mongo_pass }}@{{ mongo_ip }}:{{ mongo_port }}'
+    LOG_LANGUAGE: 'ru-RU'
+    PRIMARY_TENANT: 'test'
+    DATA_PROTECTION_CERTIFICATE_FILE: '/srv/{{ home_path_local }}/data_protection/cert.pfx'
+    DATA_PROTECTION_CERTIFICATE_FILE_PASSWORD: 'ca812291-f8c0-42c4-839c-dea724cb111f'
+    WEB_HOST_PATH_BASE: 'Client'
+    AUTHENTICATION_USERNAME: 'Service User'
+    AUTHENTICATION_PASSWORD: '{{ service_user_pass }}'
+    HYPERLINK_SERVER: 'http://{{ my_ip }}/Sungero'
+    LANGUAGE: 'ru-RU'
+#    ELASTICSEARCH_URL: 'http://192.168.122.226:9200'
+#    ELASTICSEARCH_INDEX_POSTFIX: 'test'
+services_config:
+    SungeroHaproxy:
+        haproxy_config: '/srv/{{ home_path_local }}/haproxy/haproxy.cfg'
+        # Path to the PEM certificate file.
+        ssl_cert: ''
+        http_port: '{{ http_port_ }}'
+        https_port: '{{ https_port_ }}'
+    SungeroMongodb:
+        mongodb_data_path: '/srv/{{ home_path_local }}/mongodb_data'
+        user: '{{ mongo_user }}'
+        password: '{{ mongo_pass }}'
+        port: '{{ mongo_port }}'
+#    SungeroRabbitMQ:
+#        rabbitmq_data_path: '{{ home_path_local }}/rabbitmq_data'
+    SungeroWebServer: &SungeroWebServer
+        <<: *base
+        WEB_HOST_HTTP_PORT:
+        PREVIEW_ENABLED: 'true'
+        PREVIEW_RELATIVE_PATH: '/Preview/'
+        CENTRIFUGO_RELATIVE_PATH: '/Centrifugo/'
+        PRODUCT_NOTES_SLIDER_FILE_PATH: '/srv/{{ directum_dir }}/etc/_builds/WebHelp/Slider/ProductNotesSlider.json'
+        RELEASE_NOTES_SLIDER_FILE_PATH: '/srv/{{ directum_dir }}/etc/_builds/WebHelp/Slider/ReleaseNotesSlider.json'
+        HELP_URI: 'http://{{ my_ip }}:80/Client/WebHelp'
+    SungeroWebClient:
+        <<: *SungeroWebServer
+        WEB_HOST_HTTP_PORT:
+        directory_mappings:
+        -   source_path: '/srv/{{ directum_dir }}/etc/_builds/WebHelp/WebClient'
+            target_relative_path: 'content/WebHelp'
+    IntegrationService:
+        <<: *base
+        WEB_HOST_HTTP_PORT:
+    StorageService:
+        <<: *base
+        PORT:
+        STORAGE_PATH: '/srv/{{ home_path_local }}/storageservice'
+    PreviewService:
+        <<: *base
+        PREVIEW_STORAGE_HOST:
+        TEMP_CONVERSION_FOLDER: '/srv/{{ home_path_local }}/previewservice/conversionresults'
+        DOCUMENT_PROVIDER_CACHE_FOLDER: '/srv/{{ home_path_local }}/previewservice/sourcedocuments'
+    PreviewStorage:
+        <<: *base
+        DEFAULT_SERVICE_PORT:
+        STORAGE_PATH: '/srv/{{ home_path_local }}/previewstorage'
+    WorkflowProcessService:
+        <<: *base
+    DelayedOperationsService:
+        <<: *base
+    JobScheduler:
+        <<: *base
+    GenericService:
+        <<: *base
+        WORKER_SERVICE_ENABLED: true
+        WORKFLOW_BLOCK_SERVICE_ENABLED: true
+        REPORT_SERVICE_ENABLED: true
+        WIDGET_SERVICE_ENABLED: true
+    ClientsConnectionService:
+        <<: *base
+        SERVICE_PORT:
+        QUEUE_RESPONSE_TIMEOUT: '00:00:30'
+        CENTRIFUGO_API_URI:
+        CENTRIFUGO_API_KEY: 'a400c755-e5d2-4340-865a-0bb114ecdc6c'
+    SungeroCentrifugo:
+        v3_use_offset: true
+        api_key: 'a400c755-e5d2-4340-865a-0bb114ecdc6c'
+        port:
+        proxy_connect_endpoint:
+        proxy_connect_timeout: '5'
+        user_subscribe_to_personal: true
+    LogService:
+        <<: *base
+        PORT:
+    DeploymentTool:
+        <<: *logs
+        SERVER_ROOT: '{{ my_ip }}'
+        WEB_RELATIVE_PATH: 'Client'
+        WEB_PROTOCOL: '{{ web_protocol }}'
+        SERVER_HTTPS_PORT: '{{ https_port_ }}'
+        SERVER_HTTP_PORT: '{{ http_port_ }}'
+    RxCmd:
+        <<: *logs
+        INTEGRATION_SERVICE_URL:  # auto
+    IndexingService:
+        <<: *base
+    InitialIndexing:
+        <<: *base
+
+
+
+
+
+
+  
