@@ -1,0 +1,23 @@
+version: "3.7"
+
+services:
+  rabbitmq-09-start:
+    image: rabbitmq-09-start
+    build: 
+      context: .
+      dockerfile: rabbit.Dockerfile
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    hostname: rabbit
+  
+  rabbitmq-create-infrastructure:
+    image: rabbitmq-create-infrastructure
+    build: 
+      context: .
+      dockerfile: python.Dockerfile
+    depends_on:
+      - rabbitmq-09-start
