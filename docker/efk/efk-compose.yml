@@ -7,7 +7,7 @@ services:
     depends_on:
       - elasticsearch
     volumes:
-      - ./fluentd/conf:/fluentd/etc
+      - ./fluentd:/fluentd/etc
     links:
       - "elasticsearch"
     ports:
