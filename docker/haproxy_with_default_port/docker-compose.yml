@@ -1,0 +1,9 @@
+version: "3"
+
+services:
+  rabbitmq:
+    build: ./
+    container_name: haproxy
+    ports:
+      - 4443:4443            # Открываем нужные порты
+      - 8080:8080            # Используем для статистики
