@@ -1,0 +1,39 @@
+version: "3.7"
+
+services:
+  rabbitmq-web-06-1:
+    image: rabbitmq-web-06
+    hostname: host1
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 5672:5672
+      - 15672:15672
+      - 4369:4369
+      - 25672:25672
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    extra_hosts:
+      host1: 51.250.46.8
+      host2: 51.250.42.235
+
+
+  rabbitmq-web-06-2:
+    image: rabbitmq-web-06
+    hostname: host2
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 5672:5672
+      - 15672:15672
+      - 4369:4369
+      - 25672:25672
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    extra_hosts:
+      host1: 51.250.46.8
+      host2: 51.250.42.235

@@ -1,0 +1,16 @@
+version: "3"
+services:
+  proxy:
+    image: caddy
+    ports:
+      - 8080:80
+    restart: unless-stopped
+    networks:
+      - network
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+
+
+networks:
+  network:
+    external: true
