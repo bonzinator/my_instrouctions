@@ -1,0 +1,149 @@
+	
+rabbit_version	"3.10.25"
+parameters	
+0	
+value	
+dest-protocol	"amqp091"
+dest-queue	"pq_dog"
+dest-uri	"amqp://"
+src-protocol	"amqp091"
+src-queue	"q_dog"
+src-uri	"amqp://"
+vhost	"/"
+component	"shovel"
+name	"q_dog__to__pq_dog"
+1	
+value	
+dest-protocol	"amqp091"
+dest-queue	"pq_cat"
+dest-uri	"amqp://"
+src-protocol	"amqp091"
+src-queue	"q_cat"
+src-uri	"amqp://"
+vhost	"/"
+component	"shovel"
+name	"q_cat__to__pq_cat"
+2	
+value	
+dest-protocol	"amqp091"
+dest-queue	"pq_hamster"
+dest-uri	"amqp://"
+src-protocol	"amqp091"
+src-queue	"q_hamster"
+src-uri	"amqp://"
+vhost	"/"
+component	"shovel"
+name	"q_hamster__to__pq_hamster"
+3	
+value	
+dest-protocol	"amqp091"
+dest-queue	"pq_squirrel"
+dest-uri	"amqp://"
+src-protocol	"amqp091"
+src-queue	"q_squirrel"
+src-uri	"amqp://"
+vhost	"/"
+component	"shovel"
+name	"q_squirrel__to__pq_squirrel"
+4	
+value	
+dest-protocol	"amqp091"
+dest-queue	"pq_poll"
+dest-uri	"amqp://"
+src-protocol	"amqp091"
+src-queue	"q_poll"
+src-uri	"amqp://"
+vhost	"/"
+component	"shovel"
+name	"q_poll__to__pq_poll"
+policies	[]
+queues	
+0	
+name	"q_dog"
+durable	false
+auto_delete	false
+arguments	{}
+1	
+name	"q_hamster"
+durable	false
+auto_delete	false
+arguments	{}
+2	
+name	"pq_poll"
+durable	false
+auto_delete	false
+arguments	{}
+3	
+name	"q_poll"
+durable	false
+auto_delete	false
+arguments	{}
+4	
+name	"q_cat"
+durable	false
+auto_delete	false
+arguments	{}
+5	
+name	"q_squirrel"
+durable	false
+auto_delete	false
+arguments	{}
+6	
+name	"pq_dog"
+durable	false
+auto_delete	false
+arguments	{}
+7	
+name	"pq_squirrel"
+durable	false
+auto_delete	false
+arguments	{}
+8	
+name	"pq_hamster"
+durable	false
+auto_delete	false
+arguments	{}
+9	
+name	"pq_cat"
+durable	false
+auto_delete	false
+arguments	{}
+exchanges	
+0	
+name	"x_main"
+type	"topic"
+durable	true
+auto_delete	false
+internal	false
+arguments	{}
+bindings	
+0	
+source	"x_main"
+destination	"q_cat"
+destination_type	"queue"
+routing_key	"cat"
+arguments	{}
+1	
+source	"x_main"
+destination	"q_dog"
+destination_type	"queue"
+routing_key	"dog"
+arguments	{}
+2	
+source	"x_main"
+destination	"q_hamster"
+destination_type	"queue"
+routing_key	"hamster"
+arguments	{}
+3	
+source	"x_main"
+destination	"q_poll"
+destination_type	"queue"
+routing_key	"poll"
+arguments	{}
+4	
+source	"x_main"
+destination	"q_squirrel"
+destination_type	"queue"
+routing_key	"squirrel"
+arguments	{}
