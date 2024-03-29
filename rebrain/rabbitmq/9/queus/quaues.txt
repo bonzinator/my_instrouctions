@@ -81,9 +81,13 @@ x_main -> q_drone.ge.monitoring -> q_drone.ge.monitoring__to__x_drone.ge.monitor
 
 drone.ge.weather
 
-x_main -> q_drone.ge.weather -> q_drone.ge.weather__to__x_drone.ge.weather -> x_drone.ge.weather -> q_asia (drone.ge.weather) drone.ge.delivery
+x_main -> q_drone.ge.weather -> q_drone.ge.weather__to__x_drone.ge.weather -> x_drone.ge.weather -> q_asia (drone.ge.weather) 
 
-x_main -> q_drone.ge.delivery -> q_drone.ge.delivery__to__x_drone.ge.delivery -> x_drone.ge.delivery -> q_asia (drone.ge.delivery) drone.ge.other
+drone.ge.delivery
+
+x_main -> q_drone.ge.delivery -> q_drone.ge.delivery__to__x_drone.ge.delivery -> x_drone.ge.delivery -> q_asia (drone.ge.delivery) 
+
+drone.ge.other
 
 x_main -> q_drone.ge.other -> q_drone.ge.other__to__x_drone.ge.other -> x_drone.ge.other -> q_other (drone.ge.other)
 
@@ -99,7 +103,9 @@ drone.de.delivery
 
 drone.de.other
 
-x_main -> q_drone.de.other -> q_drone.de.other__to__x_drone.de.other -> x_drone.de.other -> q_other (drone.de.other) drone.fi.monitoring
+x_main -> q_drone.de.other -> q_drone.de.other__to__x_drone.de.other -> x_drone.de.other -> q_other (drone.de.other) 
+
+drone.fi.monitoring
 
 x_main -> q_drone.fi.monitoring -> q_drone.fi.monitoring__to__x_drone.fi.monitoring -> x_drone.fi.monitoring -> q_fi (drone.fi.monitoring)
 
@@ -107,9 +113,13 @@ x_main -> q_drone.fi.monitoring -> q_drone.fi.monitoring__to__x_drone.fi.monitor
 
 drone.fi.weather
 
-x_main -> q_drone.fi.weather -> q_drone.fi.weather__to__x_drone.fi.weather -> x_drone.fi.weather -> q_fi (drone.fi.weather) drone.fi.delivery
+x_main -> q_drone.fi.weather -> q_drone.fi.weather__to__x_drone.fi.weather -> x_drone.fi.weather -> q_fi (drone.fi.weather) 
 
-x_main -> q_drone.fi.delivery -> q_drone.fi.delivery__to__x_drone.fi.delivery -> x_drone.fi.delivery -> q_fi (drone.fi.delivery) drone.fi.other
+drone.fi.delivery
+
+x_main -> q_drone.fi.delivery -> q_drone.fi.delivery__to__x_drone.fi.delivery -> x_drone.fi.delivery -> q_fi (drone.fi.delivery) 
+
+drone.fi.other
 
 x_main -> q_drone.fi.other -> q_drone.fi.other__to__x_drone.fi.other -> x_drone.fi.other -> q_fi (drone.fi.other)
 
@@ -123,13 +133,50 @@ x_main -> q_drone.pl.monitoring -> q_drone.pl.monitoring__to__x_drone.pl.monitor
 
 drone.pl.weather
 
-x_main -> q_drone.pl.weather -> q_drone.pl.weather__to__x_drone.pl.weather -> x_drone.pl.weather -> q_drone_pl (drone.pl.weather) drone.pl.delivery
+x_main -> q_drone.pl.weather -> q_drone.pl.weather__to__x_drone.pl.weather -> x_drone.pl.weather -> q_drone_pl (drone.pl.weather) 
 
-x_main -> q_drone.pl.delivery -> q_drone.pl.delivery__to__x_drone.pl.delivery -> x_drone.pl.delivery -> q_drone_pl (drone.pl.delivery) drone.pl.other
+drone.pl.delivery
+
+x_main -> q_drone.pl.delivery -> q_drone.pl.delivery__to__x_drone.pl.delivery -> x_drone.pl.delivery -> q_drone_pl (drone.pl.delivery) 
+
+drone.pl.other
 
 x_main -> q_drone.pl.other -> q_drone.pl.other__to__x_drone.pl.other -> x_drone.pl.other -> q_drone_pl (drone.pl.other)
 
 x_main -> q_drone.pl.other -> q_drone.pl.other__to__x_drone.pl.other -> x_drone.pl.other -> q_other (drone.pl.other)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 car.am.monitoring
 
@@ -137,7 +184,9 @@ x_main -> q_car.am.monitoring -> q_car.am.monitoring__to__x_car.am.monitoring ->
 
 x_main -> q_car.am.monitoring -> q_car.am.monitoring__to__x_car.am.monitoring -> x_car.am.monitoring -> q_monitoring (car.am.monitoring)
 
-x_main -> q_car.am.monitoring -> q_car.am.monitoring__to__x_car.am.monitoring -> x_car.am.monitoring -> q_asia (car.am.monitoring) car.am.weather
+x_main -> q_car.am.monitoring -> q_car.am.monitoring__to__x_car.am.monitoring -> x_car.am.monitoring -> q_asia (car.am.monitoring) 
+
+car.am.weather
 
 x_main -> q_car.am.weather -> q_car.am.weather__to__x_car.am.weather -> x_car.am.weather -> q_am (car.am.weather)
 
@@ -161,11 +210,17 @@ car.kz.monitoring
 
 x_main -> q_car.kz.monitoring -> q_car.kz.monitoring__to__x_car.kz.monitoring -> x_car.kz.monitoring -> q_monitoring (car.kz.monitoring)
 
-x_main -> q_car.kz.monitoring -> q_car.kz.monitoring__to__x_car.kz.monitoring -> x_car.kz.monitoring -> q_asia (car.kz.monitoring) car.kz.weather
+x_main -> q_car.kz.monitoring -> q_car.kz.monitoring__to__x_car.kz.monitoring -> x_car.kz.monitoring -> q_asia (car.kz.monitoring) 
 
-x_main -> q_car.kz.weather -> q_car.kz.weather__to__x_car.kz.weather -> x_car.kz.weather -> q_asia (car.kz.weather) car.kz.delivery
+car.kz.weather
 
-x_main -> q_car.kz.delivery -> q_car.kz.delivery__to__x_car.kz.delivery -> x_car.kz.delivery -> q_asia (car.kz.delivery) car.kz.other
+x_main -> q_car.kz.weather -> q_car.kz.weather__to__x_car.kz.weather -> x_car.kz.weather -> q_asia (car.kz.weather) 
+
+car.kz.delivery
+
+x_main -> q_car.kz.delivery -> q_car.kz.delivery__to__x_car.kz.delivery -> x_car.kz.delivery -> q_asia (car.kz.delivery) 
+
+car.kz.other
 
 x_main -> q_car.kz.other -> q_car.kz.other__to__x_car.kz.other -> x_car.kz.other -> q_other (car.kz.other)
 
@@ -177,7 +232,9 @@ x_main -> q_car.uz.monitoring -> q_car.uz.monitoring__to__x_car.uz.monitoring ->
 
 x_main -> q_car.uz.monitoring -> q_car.uz.monitoring__to__x_car.uz.monitoring -> x_car.uz.monitoring -> q_monitoring (car.uz.monitoring)
 
-x_main -> q_car.uz.monitoring -> q_car.uz.monitoring__to__x_car.uz.monitoring -> x_car.uz.monitoring -> q_asia (car.uz.monitoring) car.uz.weather
+x_main -> q_car.uz.monitoring -> q_car.uz.monitoring__to__x_car.uz.monitoring -> x_car.uz.monitoring -> q_asia (car.uz.monitoring) 
+
+car.uz.weather
 
 x_main -> q_car.uz.weather -> q_car.uz.weather__to__x_car.uz.weather -> x_car.uz.weather -> q_uz (car.uz.weather)
 
@@ -201,11 +258,17 @@ car.ge.monitoring
 
 x_main -> q_car.ge.monitoring -> q_car.ge.monitoring__to__x_car.ge.monitoring -> x_car.ge.monitoring -> q_monitoring (car.ge.monitoring)
 
-x_main -> q_car.ge.monitoring -> q_car.ge.monitoring__to__x_car.ge.monitoring -> x_car.ge.monitoring -> q_asia (car.ge.monitoring) car.ge.weather
+x_main -> q_car.ge.monitoring -> q_car.ge.monitoring__to__x_car.ge.monitoring -> x_car.ge.monitoring -> q_asia (car.ge.monitoring) 
 
-x_main -> q_car.ge.weather -> q_car.ge.weather__to__x_car.ge.weather -> x_car.ge.weather -> q_asia (car.ge.weather) car.ge.delivery
+car.ge.weather
 
-x_main -> q_car.ge.delivery -> q_car.ge.delivery__to__x_car.ge.delivery -> x_car.ge.delivery -> q_asia (car.ge.delivery) car.ge.other
+x_main -> q_car.ge.weather -> q_car.ge.weather__to__x_car.ge.weather -> x_car.ge.weather -> q_asia (car.ge.weather) 
+
+car.ge.delivery
+
+x_main -> q_car.ge.delivery -> q_car.ge.delivery__to__x_car.ge.delivery -> x_car.ge.delivery -> q_asia (car.ge.delivery) 
+
+car.ge.other
 
 x_main -> q_car.ge.other -> q_car.ge.other__to__x_car.ge.other -> x_car.ge.other -> q_other (car.ge.other)
 
@@ -221,7 +284,9 @@ car.de.delivery
 
 car.de.other
 
-x_main -> q_car.de.other -> q_car.de.other__to__x_car.de.other -> x_car.de.other -> q_other (car.de.other) car.fi.monitoring
+x_main -> q_car.de.other -> q_car.de.other__to__x_car.de.other -> x_car.de.other -> q_other (car.de.other) 
+
+car.fi.monitoring
 
 x_main -> q_car.fi.monitoring -> q_car.fi.monitoring__to__x_car.fi.monitoring -> x_car.fi.monitoring -> q_fi (car.fi.monitoring)
 
@@ -252,6 +317,50 @@ car.pl.delivery
 car.pl.other
 
 x_main -> q_car.pl.other -> q_car.pl.other__to__x_car.pl.other -> x_car.pl.other -> q_other (car.pl.other)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 robot.am.monitoring
 
@@ -289,9 +398,13 @@ x_main -> q_robot.kz.monitoring -> q_robot.kz.monitoring__to__x_robot.kz.monitor
 
 robot.kz.weather
 
-x_main -> q_robot.kz.weather -> q_robot.kz.weather__to__x_robot.kz.weather -> x_robot.kz.weather -> q_asia (robot.kz.weather) robot.kz.delivery
+x_main -> q_robot.kz.weather -> q_robot.kz.weather__to__x_robot.kz.weather -> x_robot.kz.weather -> q_asia (robot.kz.weather) 
 
-x_main -> q_robot.kz.delivery -> q_robot.kz.delivery__to__x_robot.kz.delivery -> x_robot.kz.delivery -> q_asia (robot.kz.delivery) robot.kz.other
+robot.kz.delivery
+
+x_main -> q_robot.kz.delivery -> q_robot.kz.delivery__to__x_robot.kz.delivery -> x_robot.kz.delivery -> q_asia (robot.kz.delivery) 
+
+robot.kz.other
 
 x_main -> q_robot.kz.other -> q_robot.kz.other__to__x_robot.kz.other -> x_robot.kz.other -> q_other (robot.kz.other)
 
@@ -333,9 +446,13 @@ x_main -> q_robot.ge.monitoring -> q_robot.ge.monitoring__to__x_robot.ge.monitor
 
 robot.ge.weather
 
-x_main -> q_robot.ge.weather -> q_robot.ge.weather__to__x_robot.ge.weather -> x_robot.ge.weather -> q_asia (robot.ge.weather) robot.ge.delivery
+x_main -> q_robot.ge.weather -> q_robot.ge.weather__to__x_robot.ge.weather -> x_robot.ge.weather -> q_asia (robot.ge.weather) 
 
-x_main -> q_robot.ge.delivery -> q_robot.ge.delivery__to__x_robot.ge.delivery -> x_robot.ge.delivery -> q_asia (robot.ge.delivery) robot.ge.other
+robot.ge.delivery
+
+x_main -> q_robot.ge.delivery -> q_robot.ge.delivery__to__x_robot.ge.delivery -> x_robot.ge.delivery -> q_asia (robot.ge.delivery) 
+
+robot.ge.other
 
 x_main -> q_robot.ge.other -> q_robot.ge.other__to__x_robot.ge.other -> x_robot.ge.other -> q_other (robot.ge.other)
 
@@ -351,7 +468,9 @@ robot.de.delivery
 
 robot.de.other
 
-x_main -> q_robot.de.other -> q_robot.de.other__to__x_robot.de.other -> x_robot.de.other -> q_other (robot.de.other) robot.fi.monitoring
+x_main -> q_robot.de.other -> q_robot.de.other__to__x_robot.de.other -> x_robot.de.other -> q_other (robot.de.other) 
+
+robot.fi.monitoring
 
 x_main -> q_robot.fi.monitoring -> q_robot.fi.monitoring__to__x_robot.fi.monitoring -> x_robot.fi.monitoring -> q_fi (robot.fi.monitoring)
 
@@ -359,9 +478,13 @@ x_main -> q_robot.fi.monitoring -> q_robot.fi.monitoring__to__x_robot.fi.monitor
 
 robot.fi.weather
 
-x_main -> q_robot.fi.weather -> q_robot.fi.weather__to__x_robot.fi.weather -> x_robot.fi.weather -> q_fi (robot.fi.weather) robot.fi.delivery
+x_main -> q_robot.fi.weather -> q_robot.fi.weather__to__x_robot.fi.weather -> x_robot.fi.weather -> q_fi (robot.fi.weather) 
 
-x_main -> q_robot.fi.delivery -> q_robot.fi.delivery__to__x_robot.fi.delivery -> x_robot.fi.delivery -> q_fi (robot.fi.delivery) robot.fi.other
+robot.fi.delivery
+
+x_main -> q_robot.fi.delivery -> q_robot.fi.delivery__to__x_robot.fi.delivery -> x_robot.fi.delivery -> q_fi (robot.fi.delivery) 
+
+robot.fi.other
 
 x_main -> q_robot.fi.other -> q_robot.fi.other__to__x_robot.fi.other -> x_robot.fi.other -> q_fi (robot.fi.other)
 
@@ -377,7 +500,52 @@ robot.pl.delivery
 
 robot.pl.other
 
-x_main -> q_robot.pl.other -> q_robot.pl.other__to__x_robot.pl.other -> x_robot.pl.other -> q_other (robot.pl.other) scooter.am.monitoring
+x_main -> q_robot.pl.other -> q_robot.pl.other__to__x_robot.pl.other -> x_robot.pl.other -> q_other (robot.pl.other) 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+scooter.am.monitoring
 
 x_main -> q_scooter.am.monitoring -> q_scooter.am.monitoring__to__x_scooter.am.monitoring -> x_scooter.am.monitoring -> q_am (scooter.am.monitoring)
 
@@ -385,17 +553,47 @@ x_main -> q_scooter.am.monitoring -> q_scooter.am.monitoring__to__x_scooter.am.m
 
 x_main -> q_scooter.am.monitoring -> q_scooter.am.monitoring__to__x_scooter.am.monitoring -> x_scooter.am.monitoring -> q_asia (scooter.am.monitoring)
 
+
+
+
+
+
+
+
+
+
+
+
 scooter.am.weather
 
 x_main -> q_scooter.am.weather -> q_scooter.am.weather__to__x_scooter.am.weather -> x_scooter.am.weather -> q_am (scooter.am.weather)
 
 x_main -> q_scooter.am.weather -> q_scooter.am.weather__to__x_scooter.am.weather -> x_scooter.am.weather -> q_asia (scooter.am.weather)
 
+
+
+
+
+
+
+
+
+
 scooter.am.delivery
 
 x_main -> q_scooter.am.delivery -> q_scooter.am.delivery__to__x_scooter.am.delivery -> x_scooter.am.delivery -> q_am (scooter.am.delivery)
 
 x_main -> q_scooter.am.delivery -> q_scooter.am.delivery__to__x_scooter.am.delivery -> x_scooter.am.delivery -> q_asia (scooter.am.delivery)
+
+
+
+
+
+
+
+
+
+
 
 scooter.am.other
 
@@ -405,23 +603,81 @@ x_main -> q_scooter.am.other -> q_scooter.am.other__to__x_scooter.am.other -> x_
 
 x_main -> q_scooter.am.other -> q_scooter.am.other__to__x_scooter.am.other -> x_scooter.am.other -> q_asia (scooter.am.other)
 
+
+
+
+
+
+
+
+
+
+
+
+
 scooter.kz.monitoring
 
 x_main -> q_scooter.kz.monitoring -> q_scooter.kz.monitoring__to__x_scooter.kz.monitoring -> x_scooter.kz.monitoring -> q_monitoring (scooter.kz.monitoring)
 
 x_main -> q_scooter.kz.monitoring -> q_scooter.kz.monitoring__to__x_scooter.kz.monitoring -> x_scooter.kz.monitoring -> q_asia (scooter.kz.monitoring)
 
+
+
+
+
+
+
+
+
+
+
+
 scooter.kz.weather
 
-x_main -> q_scooter.kz.weather -> q_scooter.kz.weather__to__x_scooter.kz.weather -> x_scooter.kz.weather -> q_asia (scooter.kz.weather) scooter.kz.delivery
+x_main -> q_scooter.kz.weather -> q_scooter.kz.weather__to__x_scooter.kz.weather -> x_scooter.kz.weather -> q_asia (scooter.kz.weather) 
+
+
+
+
+
+
+
+scooter.kz.delivery
 
 x_main -> q_scooter.kz.delivery -> q_scooter.kz.delivery__to__x_scooter.kz.delivery -> x_scooter.kz.delivery -> q_asia (scooter.kz.delivery)
+
+
+
+
+
+
+
+
+
+
+
 
 scooter.kz.other
 
 x_main -> q_scooter.kz.other -> q_scooter.kz.other__to__x_scooter.kz.other -> x_scooter.kz.other -> q_other (scooter.kz.other)
 
 x_main -> q_scooter.kz.other -> q_scooter.kz.other__to__x_scooter.kz.other -> x_scooter.kz.other -> q_asia (scooter.kz.other)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 scooter.uz.monitoring
 
@@ -431,17 +687,50 @@ x_main -> q_scooter.uz.monitoring -> q_scooter.uz.monitoring__to__x_scooter.uz.m
 
 x_main -> q_scooter.uz.monitoring -> q_scooter.uz.monitoring__to__x_scooter.uz.monitoring -> x_scooter.uz.monitoring -> q_asia (scooter.uz.monitoring)
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 scooter.uz.weather
 
 x_main -> q_scooter.uz.weather -> q_scooter.uz.weather__to__x_scooter.uz.weather -> x_scooter.uz.weather -> q_uz (scooter.uz.weather)
 
 x_main -> q_scooter.uz.weather -> q_scooter.uz.weather__to__x_scooter.uz.weather -> x_scooter.uz.weather -> q_asia (scooter.uz.weather)
 
+
+
+
+
+
+
+
+
+
+
 scooter.uz.delivery
 
 x_main -> q_scooter.uz.delivery -> q_scooter.uz.delivery__to__x_scooter.uz.delivery -> x_scooter.uz.delivery -> q_uz (scooter.uz.delivery)
 
 x_main -> q_scooter.uz.delivery -> q_scooter.uz.delivery__to__x_scooter.uz.delivery -> x_scooter.uz.delivery -> q_asia (scooter.uz.delivery)
+
+
+
+
+
+
+
+
+
+
 
 scooter.uz.other
 
@@ -451,9 +740,32 @@ x_main -> q_scooter.uz.other -> q_scooter.uz.other__to__x_scooter.uz.other -> x_
 
 x_main -> q_scooter.uz.other -> q_scooter.uz.other__to__x_scooter.uz.other -> x_scooter.uz.other -> q_asia (scooter.uz.other)
 
-scooter.ge.monitoring x_main -> q_scooter.ge.monitoring -> q_scooter.ge.monitoring__to__x_scooter.ge.monitoring -> x_scooter.ge.monitoring -> q_monitoring (scooter.ge.monitoring)
+
+
+
+
+
+
+
+
+
+
+
+
+scooter.ge.monitoring 
+
+x_main -> q_scooter.ge.monitoring -> q_scooter.ge.monitoring__to__x_scooter.ge.monitoring -> x_scooter.ge.monitoring -> q_monitoring (scooter.ge.monitoring)
 
 x_main -> q_scooter.ge.monitoring -> q_scooter.ge.monitoring__to__x_scooter.ge.monitoring -> x_scooter.ge.monitoring -> q_asia (scooter.ge.monitoring)
+
+
+
+
+
+
+
+
+
 
 scooter.ge.weather
 
@@ -461,11 +773,32 @@ x_main -> q_scooter.ge.weather -> q_scooter.ge.weather__to__x_scooter.ge.weather
 
 x_main -> q_scooter.ge.delivery -> q_scooter.ge.delivery__to__x_scooter.ge.delivery -> x_scooter.ge.delivery -> q_asia (scooter.ge.delivery)
 
+
+
+
+
+
+
+
+
+
+
+
 scooter.ge.other
 
 x_main -> q_scooter.ge.other -> q_scooter.ge.other__to__x_scooter.ge.other -> x_scooter.ge.other -> q_other (scooter.ge.other)
 
 x_main -> q_scooter.ge.other -> q_scooter.ge.other__to__x_scooter.ge.other -> x_scooter.ge.other -> q_asia (scooter.ge.other)
+
+
+
+
+
+
+
+
+
+
 
 scooter.de.monitoring
 
@@ -473,19 +806,49 @@ x_main -> q_scooter.de.monitoring -> q_scooter.de.monitoring__to__x_scooter.de.m
 
 x_main -> q_scooter.de.monitoring -> q_scooter.de.monitoring__to__x_scooter.de.monitoring -> x_scooter.de.monitoring -> q_scooter_europe (scooter.de.monitoring)
 
+
+
+
+
+
+
+
+
+
+
+
 scooter.de.weather
 
 x_main -> q_scooter.de.weather -> q_scooter.de.weather__to__x_scooter.de.weather -> x_scooter.de.weather -> q_scooter_europe (scooter.de.weather)
 
+
+
+
 scooter.de.delivery
 
 x_main -> q_scooter.de.delivery -> q_scooter.de.delivery__to__x_scooter.de.delivery -> x_scooter.de.delivery -> q_scooter_europe (scooter.de.delivery)
+
+
+
+
+
+
+
 
 scooter.de.other
 
 x_main -> q_scooter.de.other -> q_scooter.de.other__to__x_scooter.de.other -> x_scooter.de.other -> q_other (scooter.de.other)
 
 x_main -> q_scooter.de.other -> q_scooter.de.other__to__x_scooter.de.other -> x_scooter.de.other -> q_scooter_europe (scooter.de.other)
+
+
+
+
+
+
+
+
+
 
 scooter.fi.monitoring
 
@@ -495,17 +858,43 @@ x_main -> q_scooter.fi.monitoring -> q_scooter.fi.monitoring__to__x_scooter.fi.m
 
 x_main -> q_scooter.fi.monitoring -> q_scooter.fi.monitoring__to__x_scooter.fi.monitoring -> x_scooter.fi.monitoring -> q_scooter_europe (scooter.fi.monitoring)
 
+
+
+
+
+
+
+
+
+
 scooter.fi.weather
 
 x_main -> q_scooter.fi.weather -> q_scooter.fi.weather__to__x_scooter.fi.weather -> x_scooter.fi.weather -> q_fi (scooter.fi.weather)
 
 x_main -> q_scooter.fi.weather -> q_scooter.fi.weather__to__x_scooter.fi.weather -> x_scooter.fi.weather -> q_scooter_europe (scooter.fi.weather)
 
+
+
+
+
+
+
+
+
+
+
 scooter.fi.delivery
 
 x_main -> q_scooter.fi.delivery -> q_scooter.fi.delivery__to__x_scooter.fi.delivery -> x_scooter.fi.delivery -> q_fi (scooter.fi.delivery)
 
 x_main -> q_scooter.fi.delivery -> q_scooter.fi.delivery__to__x_scooter.fi.delivery -> x_scooter.fi.delivery -> q_scooter_europe (scooter.fi.delivery)
+
+
+
+
+
+
+
 
 scooter.fi.other
 
@@ -515,19 +904,40 @@ x_main -> q_scooter.fi.other -> q_scooter.fi.other__to__x_scooter.fi.other -> x_
 
 x_main -> q_scooter.fi.other -> q_scooter.fi.other__to__x_scooter.fi.other -> x_scooter.fi.other -> q_scooter_europe (scooter.fi.other)
 
+
+
+
+
+
+
+
 scooter.pl.monitoring
 
 x_main -> q_scooter.pl.monitoring -> q_scooter.pl.monitoring__to__x_scooter.pl.monitoring -> x_scooter.pl.monitoring -> q_monitoring (scooter.pl.monitoring)
 
 x_main -> q_scooter.pl.monitoring -> q_scooter.pl.monitoring__to__x_scooter.pl.monitoring -> x_scooter.pl.monitoring -> q_scooter_europe (scooter.pl.monitoring)
 
+
+
+
+
+
+
 scooter.pl.weather
 
 x_main -> q_scooter.pl.weather -> q_scooter.pl.weather__to__x_scooter.pl.weather -> x_scooter.pl.weather -> q_scooter_europe (scooter.pl.weather)
 
+
+
+
 scooter.pl.delivery
 
 x_main -> q_scooter.pl.delivery -> q_scooter.pl.delivery__to__x_scooter.pl.delivery -> x_scooter.pl.delivery -> q_scooter_europe (scooter.pl.delivery)
+
+
+
+
+
 
 scooter.pl.other
 
