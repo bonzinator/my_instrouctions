@@ -1,0 +1,175 @@
+
+filebeat.registry.flush: 60s
+# отключаем встроенные метрики
+logging.metrics.enabled: false
+
+filebeat.inputs:
+# Для статус-файлов healthcheck
+- type: filestream
+  enabled: true
+  id: health-check
+  paths:
+  - /rx_storage/drx_logs/app1/DOS/status/*status
+  - /rx_storage/drx_logs/app1/LogService/status/*status
+  - /rx_storage/drx_logs/app1/PreviewService/status/*status
+  - /rx_storage/drx_logs/app1/PreviewStorageService/status/*status
+  - /rx_storage/drx_logs/app1/ReportService/status/*status
+  - /rx_storage/drx_logs/app1/JSh/status/*status
+  - /rx_storage/drx_logs/app1/WBS/status/*status
+  - /rx_storage/drx_logs/app1/WebClient/status/*status
+  - /rx_storage/drx_logs/app1/WebServer/status/*status
+  - /rx_storage/drx_logs/app1/Widgets/status/*status
+  - /rx_storage/drx_logs/app1/Worker/status/*status
+  - /rx_storage/drx_logs/app1/WPS/status/*status
+  - /rx_storage/drx_logs/app1/ClientConnectionService/status/*status
+  - /rx_storage/drx_logs/app1/DT/status/*status
+  - /rx_storage/drx_logs/app1/IntegrationService/status/*status
+  - /rx_storage/drx_logs/app1/StorageService/status/*status
+  - /rx_storage/drx_logs/app1/IndexingService/status/*status
+
+  prospector.scanner.resend_on_touch: true
+  encoding: utf-8
+  parsers:
+    - multiline:
+        type: pattern
+        pattern: '^{\n'
+        negate: true
+        match: after
+
+  fields:
+    rx_server: RxApp1-BU
+
+- type: filestream
+  enabled: true
+  id: health-check
+  paths:
+  - /rx_storage/drx_logs/app2/DOS/status/*status
+  - /rx_storage/drx_logs/app2/LogService/status/*status
+  - /rx_storage/drx_logs/app2/PreviewService/status/*status
+  - /rx_storage/drx_logs/app2/PreviewStorageService/status/*status
+  - /rx_storage/drx_logs/app2/ReportService/status/*status
+  - /rx_storage/drx_logs/app2/JSh/status/*status
+  - /rx_storage/drx_logs/app2/WBS/status/*status
+  - /rx_storage/drx_logs/app2/WebClient/status/*status
+  - /rx_storage/drx_logs/app2/WebServer/status/*status
+  - /rx_storage/drx_logs/app2/Widgets/status/*status
+  - /rx_storage/drx_logs/app2/Worker/status/*status
+  - /rx_storage/drx_logs/app2/WPS/status/*status
+  - /rx_storage/drx_logs/app2/ClientConnectionService/status/*status
+  - /rx_storage/drx_logs/app2/DT/status/*status
+  - /rx_storage/drx_logs/app2/IntegrationService/status/*status
+  - /rx_storage/drx_logs/app2/StorageService/status/*status
+  - /rx_storage/drx_logs/app2/IndexingService/status/*status
+
+
+  prospector.scanner.resend_on_touch: true
+  encoding: utf-8
+  parsers:
+    - multiline:
+       type: pattern
+       pattern: '^{\n'
+       negate: true
+       match: after
+
+  fields:
+    rx_server: RxApp2-BU
+
+
+# Для сервисных логов
+- type: log
+  enabled: true
+
+  paths:
+    - /rx_storage/drx_logs/app1/DOS/*.log
+    - /rx_storage/drx_logs/app1/LogService/*.log
+    - /rx_storage/drx_logs/app1/LogService/remote/*.log
+    - /rx_storage/drx_logs/app1/PreviewService/*.log
+    - /rx_storage/drx_logs/app1/PreviewStorageService/*.log
+    - /rx_storage/drx_logs/app1/ReportService/*.log
+    - /rx_storage/drx_logs/app1/JSh/*.log
+    - /rx_storage/drx_logs/app1/WBS/*.log
+    - /rx_storage/drx_logs/app1/WebClient/*.log
+    - /rx_storage/drx_logs/app1/WebServer/*.log
+    - /rx_storage/drx_logs/app1/WebServer/remote/*.log
+    - /rx_storage/drx_logs/app1/Widgets/*.log
+    - /rx_storage/drx_logs/app1/Worker/*.log
+    - /rx_storage/drx_logs/app1/WPS/*.log
+    - /rx_storage/drx_logs/app1/ClientConnectionService/*.log
+    - /rx_storage/drx_logs/app1/DT/*.log
+    - /rx_storage/drx_logs/app1/IntegrationService/*.log
+    - /rx_storage/drx_logs/app1/StorageService/*.log
+    - /rx_storage/drx_logs/app1/IndexingService/*.log
+  recursive_glob.enabled: false
+  close_inactive: 2m
+  backoff: 90s
+  max_backoff: 90s
+  scan_frequency: 90s
+  harvester_limit: 200
+  # игнорируем файлы дата изменения которых больше указанного значения
+  ignore_older: 24h
+
+  fields:
+    rx_server: RxApp1-BU
+
+  encoding: utf-8
+  multiline.pattern: '(^\d{4}-\d{2}-\d{2} |^{"t":"[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}.)'
+  multiline.negate: true
+  multiline.match: after
+  # Для логов номада исключаем первую строчку с описанием полей.
+  exclude_lines: ['^time\tlevel.*$']
+
+- type: log
+  enabled: true
+
+  paths:
+    - /rx_storage/drx_logs/app2/DOS/*.log
+    - /rx_storage/drx_logs/app2/LogService/*.log
+    - /rx_storage/drx_logs/app2/LogService/remote/*.log
+    - /rx_storage/drx_logs/app2/PreviewService/*.log
+    - /rx_storage/drx_logs/app2/PreviewStorageService/*.log
+    - /rx_storage/drx_logs/app2/ReportService/*.log
+    - /rx_storage/drx_logs/app2/JSh/*.log
+    - /rx_storage/drx_logs/app2/WBS/*.log
+    - /rx_storage/drx_logs/app2/WebClient/*.log
+    - /rx_storage/drx_logs/app2/WebServer/*.log
+    - /rx_storage/drx_logs/app2/WebServer/remote/*.log
+    - /rx_storage/drx_logs/app2/Widgets/*.log
+    - /rx_storage/drx_logs/app2/Worker/*.log
+    - /rx_storage/drx_logs/app2/WPS/*.log
+    - /rx_storage/drx_logs/app2/ClientConnectionService/*.log
+    - /rx_storage/drx_logs/app2/DT/*.log
+    - /rx_storage/drx_logs/app2/IntegrationService/*.log
+    - /rx_storage/drx_logs/app2/StorageService/*.log
+    - /rx_storage/drx_logs/app2/IndexingService/*.log
+
+  recursive_glob.enabled: false
+  close_inactive: 2m
+  backoff: 90s
+  max_backoff: 90s
+  scan_frequency: 90s
+  harvester_limit: 200
+  ignore_older: 24h
+
+  fields:
+    rx_server: RxApp2-BU
+
+  encoding: utf-8
+  multiline.pattern: '(^\d{4}-\d{2}-\d{2} |^{"t":"[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}.)'
+  multiline.negate: true
+  multiline.match: after
+  # Для логов номада исключаем первую строчку с описанием полей.
+  exclude_lines: ['^time\tlevel.*$']
+
+
+#========================== Logstash output ================================
+
+output.logstash:
+  hosts: ["10.135.151.96:5044"]
+  enabled: true
+
+#========================== X-Pack monitoring ================================
+
+#xpack.monitoring:
+#  enabled: true
+#  elasticsearch:
+#    hosts: ["http://localhost:9200"]

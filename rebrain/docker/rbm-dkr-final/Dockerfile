@@ -40,3 +40,4 @@ COPY docker/entrypoint.sh /
 
 EXPOSE 80
 CMD ["bash", "/entrypoint.sh"]
+

@@ -1,0 +1,348 @@
+
+
+filebeat.registry.flush: 60s
+# отключаем встроенные метрики
+logging.metrics.enabled: false
+
+filebeat.inputs:
+# Для статус-файлов healthcheck
+- type: filestream
+  enabled: true
+  id: health-check
+  paths:
+  - /archiv/logs/app1/DOS/status/*status
+  - /archiv/logs/app1/LogService/status/*status
+  - /archiv/logs/app1/PreviewService/status/*status
+  - /archiv/logs/app1/PreviewStorageService/status/*status
+  - /archiv/logs/app1/ReportService/status/*status
+  - /archiv/logs/app1/JSh/status/*status
+  - /archiv/logs/app1/WBS/status/*status
+  - /archiv/logs/app1/WebClient/status/*status
+  - /archiv/logs/app1/WebServer/status/*status
+  - /archiv/logs/app1/Widgets/status/*status
+  - /archiv/logs/app1/Worker/status/*status
+  - /archiv/logs/app1/WPS/status/*status
+  - /archiv/logs/app1/ClientConnectionService/status/*status
+  - /archiv/logs/app1/DT/status/*status
+  - /archiv/logs/app1/IntegrationService/status/*status
+  - /archiv/logs/app1/StorageService/status/*status
+#  - /archiv/logs/nomad/status/*status
+
+  prospector.scanner.resend_on_touch: true
+  encoding: utf-8
+  parsers:
+    - multiline:
+        type: pattern
+        pattern: '^{\n'
+        negate: true
+        match: after
+
+  fields:
+    rx_server: RxApp1
+
+- type: filestream
+  enabled: true
+  id: health-check
+  paths:
+  - /archiv/logs/app2/DOS/status/*status
+  - /archiv/logs/app2/LogService/status/*status
+  - /archiv/logs/app2/PreviewService/status/*status
+  - /archiv/logs/app2/PreviewStorageService/status/*status
+  - /archiv/logs/app2/ReportService/status/*status
+  - /archiv/logs/app2/JSh/status/*status
+  - /archiv/logs/app2/WBS/status/*status
+  - /archiv/logs/app2/WebClient/status/*status
+  - /archiv/logs/app2/WebServer/status/*status
+  - /archiv/logs/app2/Widgets/status/*status
+  - /archiv/logs/app2/Worker/status/*status
+  - /archiv/logs/app2/WPS/status/*status
+  - /archiv/logs/app2/ClientConnectionService/status/*status
+  - /archiv/logs/app2/DT/status/*status
+  - /archiv/logs/app2/IntegrationService/status/*status
+  - /archiv/logs/app2/StorageService/status/*status
+#  - /archiv/logs/nomad/status/*status
+
+  prospector.scanner.resend_on_touch: true
+  encoding: utf-8
+  parsers:
+    - multiline:
+       type: pattern
+       pattern: '^{\n'
+       negate: true
+       match: after
+
+  fields:
+    rx_server: RxApp2
+
+- type: filestream
+  enabled: true
+  id: health-check
+  paths:
+  - /archiv/logs/app3/DOS/status/*status
+  - /archiv/logs/app3/LogService/status/*status
+  - /archiv/logs/app3/PreviewService/status/*status
+  - /archiv/logs/app3/PreviewStorageService/status/*status
+  - /archiv/logs/app3/ReportService/status/*status
+  - /archiv/logs/app3/JSh/status/*status
+  - /archiv/logs/app3/WBS/status/*status
+  - /archiv/logs/app3/WebClient/status/*status
+  - /archiv/logs/app3/WebServer/status/*status
+  - /archiv/logs/app3/Widgets/status/*status
+  - /archiv/logs/app3/Worker/status/*status
+  - /archiv/logs/app3/WPS/status/*status
+  - /archiv/logs/app3/ClientConnectionService/status/*status
+  - /archiv/logs/app3/DT/status/*status
+  - /archiv/logs/app3/IntegrationService/status/*status
+  - /archiv/logs/app3/StorageService/status/*status
+#  - /archiv/logs/nomad/status/*status
+
+  prospector.scanner.resend_on_touch: true
+  encoding: utf-8
+  parsers:
+    - multiline:
+        type: pattern
+        pattern: '^{\n'
+        negate: true
+        match: after
+
+  fields:
+    rx_server: RxApp3
+
+- type: filestream
+  enabled: true
+  id: health-check
+  paths:
+  - /archiv/logs/app4/DOS/status/*status
+  - /archiv/logs/app4/LogService/status/*status
+  - /archiv/logs/app4/PreviewService/status/*status
+  - /archiv/logs/app4/PreviewStorageService/status/*status
+  - /archiv/logs/app4/ReportService/status/*status
+  - /archiv/logs/app4/JSh/status/*status
+  - /archiv/logs/app4/WBS/status/*status
+  - /archiv/logs/app4/WebClient/status/*status
+  - /archiv/logs/app4/WebServer/status/*status
+  - /archiv/logs/app4/Widgets/status/*status
+  - /archiv/logs/app4/Worker/status/*status
+  - /archiv/logs/app4/WPS/status/*status
+  - /archiv/logs/app4/ClientConnectionService/status/*status
+  - /archiv/logs/app4/DT/status/*status
+  - /archiv/logs/app4/IntegrationService/status/*status
+  - /archiv/logs/app4/StorageService/status/*status
+#  - /archiv/logs/nomad/status/*status
+
+  prospector.scanner.resend_on_touch: true
+  encoding: utf-8
+  parsers:
+    - multiline:
+       type: pattern
+       pattern: '^{\n'
+       negate: true
+       match: after
+
+  fields:
+    rx_server: RxApp4
+
+# Для сервисных логов
+- type: log
+  enabled: true
+
+  paths:
+    - /archiv/logs/app1/DOS/*.log
+    - /archiv/logs/app1/LogService/*.log
+    - /archiv/logs/app1/LogService/remote/*.log
+    - /archiv/logs/app1/PreviewService/*.log
+    - /archiv/logs/app1/PreviewStorageService/*.log
+    - /archiv/logs/app1/ReportService/*.log
+    - /archiv/logs/app1/JSh/*.log
+    - /archiv/logs/app1/WBS/*.log
+    - /archiv/logs/app1/WebClient/*.log
+    - /archiv/logs/app1/WebServer/*.log
+    - /archiv/logs/app1/WebServer/remote/*.log
+    - /archiv/logs/app1/Widgets/*.log
+    - /archiv/logs/app1/Worker/*.log
+    - /archiv/logs/app1/WPS/*.log
+    - /archiv/logs/app1/ClientConnectionService/*.log
+    - /archiv/logs/app1/DT/*.log
+    - /archiv/logs/app1/IntegrationService/*.log
+    - /archiv/logs/app1/StorageService/*.log
+    - /archiv/logs/nomad/*.log
+  recursive_glob.enabled: false
+  close_inactive: 2m
+  backoff: 90s
+  max_backoff: 90s
+  scan_frequency: 90s
+  harvester_limit: 200
+  # игнорируем файлы дата изменения которых больше указанного значения
+  ignore_older: 24h
+
+  fields:
+    rx_server: RxApp1
+
+  encoding: utf-8
+  multiline.pattern: '(^\d{4}-\d{2}-\d{2} |^{"t":"[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}.)'
+  multiline.negate: true
+  multiline.match: after
+  # Для логов номада исключаем первую строчку с описанием полей.
+  exclude_lines: ['^time\tlevel.*$']
+
+- type: log
+  enabled: true
+
+  paths:
+    - /archiv/logs/app2/DOS/*.log
+    - /archiv/logs/app2/LogService/*.log
+    - /archiv/logs/app2/LogService/remote/*.log
+    - /archiv/logs/app2/PreviewService/*.log
+    - /archiv/logs/app2/PreviewStorageService/*.log
+    - /archiv/logs/app2/ReportService/*.log
+    - /archiv/logs/app2/JSh/*.log
+    - /archiv/logs/app2/WBS/*.log
+    - /archiv/logs/app2/WebClient/*.log
+    - /archiv/logs/app2/WebServer/*.log
+    - /archiv/logs/app2/WebServer/remote/*.log
+    - /archiv/logs/app2/Widgets/*.log
+    - /archiv/logs/app2/Worker/*.log
+    - /archiv/logs/app2/WPS/*.log
+    - /archiv/logs/app2/ClientConnectionService/*.log
+    - /archiv/logs/app2/DT/*.log
+    - /archiv/logs/app2/IntegrationService/*.log
+    - /archiv/logs/app2/StorageService/*.log
+
+  recursive_glob.enabled: false
+  close_inactive: 2m
+  backoff: 90s
+  max_backoff: 90s
+  scan_frequency: 90s
+  harvester_limit: 200
+  ignore_older: 24h
+
+  fields:
+    rx_server: RxApp2
+
+  encoding: utf-8
+  multiline.pattern: '(^\d{4}-\d{2}-\d{2} |^{"t":"[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}.)'
+  multiline.negate: true
+  multiline.match: after
+  # Для логов номада исключаем первую строчку с описанием полей.
+  exclude_lines: ['^time\tlevel.*$']
+
+- type: log
+  enabled: true
+
+  paths:
+    - /archiv/logs/app3/DOS/*.log
+    - /archiv/logs/app3/LogService/*.log
+    - /archiv/logs/app3/LogService/remote/*.log
+    - /archiv/logs/app3/PreviewService/*.log
+    - /archiv/logs/app3/PreviewStorageService/*.log
+    - /archiv/logs/app3/ReportService/*.log
+    - /archiv/logs/app3/JSh/*.log
+    - /archiv/logs/app3/WBS/*.log
+    - /archiv/logs/app3/WebClient/*.log
+    - /archiv/logs/app3/WebServer/*.log
+    - /archiv/logs/app3/WebServer/remote/*.log
+    - /archiv/logs/app3/Widgets/*.log
+    - /archiv/logs/app3/Worker/*.log
+    - /archiv/logs/app3/WPS/*.log
+    - /archiv/logs/app3/ClientConnectionService/*.log
+    - /archiv/logs/app3/DT/*.log
+    - /archiv/logs/app3/IntegrationService/*.log
+    - /archiv/logs/app3/StorageService/*.log
+
+  recursive_glob.enabled: false
+  close_inactive: 2m
+  backoff: 90s
+  max_backoff: 90s
+  scan_frequency: 90s
+  harvester_limit: 200
+  ignore_older: 24h
+
+  fields:
+    rx_server: RxApp3
+
+  encoding: utf-8
+  multiline.pattern: '(^\d{4}-\d{2}-\d{2} |^{"t":"[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}.)'
+  multiline.negate: true
+  multiline.match: after
+  # Для логов номада исключаем первую строчку с описанием полей.
+  exclude_lines: ['^time\tlevel.*$']
+
+- type: log
+  enabled: true
+
+  paths:
+    - /archiv/logs/app4/DOS/*.log
+    - /archiv/logs/app4/LogService/*.log
+    - /archiv/logs/app4/LogService/remote/*.log
+    - /archiv/logs/app4/PreviewService/*.log
+    - /archiv/logs/app4/PreviewStorageService/*.log
+    - /archiv/logs/app4/ReportService/*.log
+    - /archiv/logs/app4/JSh/*.log
+    - /archiv/logs/app4/WBS/*.log
+    - /archiv/logs/app4/WebClient/*.log
+    - /archiv/logs/app4/WebServer/*.log
+    - /archiv/logs/app4/WebServer/remote/*.log
+    - /archiv/logs/app4/Widgets/*.log
+    - /archiv/logs/app4/Worker/*.log
+    - /archiv/logs/app4/WPS/*.log
+    - /archiv/logs/app4/ClientConnectionService/*.log
+    - /archiv/logs/app4/DT/*.log
+    - /archiv/logs/app4/IntegrationService/*.log
+    - /archiv/logs/app4/StorageService/*.log
+
+  recursive_glob.enabled: false
+  close_inactive: 2m
+  backoff: 90s
+  max_backoff: 90s
+  scan_frequency: 90s
+  harvester_limit: 200
+  ignore_older: 24h
+
+  fields:
+    rx_server: RxApp4
+
+  encoding: utf-8
+  multiline.pattern: '(^\d{4}-\d{2}-\d{2} |^{"t":"[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}.)'
+  multiline.negate: true
+  multiline.match: after
+  # Для логов номада исключаем первую строчку с описанием полей.
+  exclude_lines: ['^time\tlevel.*$']
+
+- type: log
+  enabled: true
+
+  paths:
+    - /archiv/logs/nomad/server*.log
+
+  recursive_glob.enabled: false
+  close_inactive: 2m
+  backoff: 90s
+  max_backoff: 90s
+  scan_frequency: 90s
+  harvester_limit: 200
+  ignore_older: 24h
+
+  fields:
+    rx_server: nomad
+
+  encoding: utf-8
+  multiline.pattern: '(^\d{4}-\d{2}-\d{2} |^{"t":"[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}.)'
+  multiline.negate: true
+  multiline.match: after
+  # Для логов номада исключаем первую строчку с описанием полей.
+  exclude_lines: ['^time\tlevel.*$']
+
+
+
+#========================== Logstash output ================================
+
+output.logstash:
+  hosts: ["10.135.151.96:5044"]
+  enabled: true
+
+#========================== X-Pack monitoring ================================
+
+#xpack.monitoring:
+#  enabled: true
+#  elasticsearch:
+#    hosts: ["http://localhost:9200"]
