@@ -21,3 +21,4 @@ services:
       dockerfile: python.Dockerfile
     depends_on:
       - rabbitmq
+
