@@ -31,3 +31,9 @@ ssh -o StrictHostKeyChecking=no -l "$APP_USER_1" "$APP_IP_1"
 
 # Выполнение команды на другом сервере при помощи подключения по ssh
 ssh root@www 'ps -ef | grep apache | grep -v grep | wc -l'
+
+# Счетчик для проведения операций на всех плечах
+for ((i=1; i<10; i++))
+do
+    команда1
+done
