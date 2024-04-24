@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-  rabbitmq:
+  haproxy:
     build: ./
     container_name: haproxy
     ports:

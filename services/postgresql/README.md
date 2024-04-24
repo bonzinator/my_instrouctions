@@ -7,7 +7,9 @@ apt-get install build-essential
 ```
 apt-get install libreadline-dev
 ```
-
+```
+apt install zlib1g-dev
+```
 ## Инструкция по сборке PostgreSQL
 
 
@@ -37,7 +39,11 @@ export PGDATA=/var/lib/postgresql/main
 ```
 
 ```
-chown -R user:user /var/lib/postgresql/
+sudo useradd --system --no-create-home --shell /bin/false postgres
+```
+
+```
+chown -R postgres:postgres /var/lib/postgresql/
 ```
 
 
