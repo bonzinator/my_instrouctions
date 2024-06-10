@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+
+  mongodb:
+    image: mongo:4.4.27
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    restart: always
+
+  rabbitmq:
+    image: rabbitmq:3.10.7-management
+    container_name: rabbitmq
+    hostname: rabbit
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+      - rabbitmq_home:/opt/rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+      - RABBITMQ_MNESIA_BASE=/var/lib/rabbitmq/mnesia
+    restart: always
+
+  db:
+    image: postgres:15
+    restart: always
+    container_name: "postgres"
+    environment:
+      POSTGRES_USER: "sa"
+      POSTGRES_PASSWORD: "drx"
+      POSTGRES_DB: "drx"
+      PG_DATA: "/var/lib/postgresql/data/pgdata"
+    ports:
+      - 5432:5432
+    volumes:
+    - postgresql:/var/lib/postgresql/data/
+
+
+volumes:
+  mongo_data:
+  rabbitmq_data:
+  rabbitmq_home:
+  postgresql:
