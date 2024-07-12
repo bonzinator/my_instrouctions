@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pod-ingress
+  namespace: policy-test
+  labels:
+    app: pod-ingress
+spec:
+  selector:
+    app: pod-ingress
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: pod-egress
+  namespace: policy-test
+  labels:
+    app: pod-egress
+spec:
+  selector:
+    app: pod-egress
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

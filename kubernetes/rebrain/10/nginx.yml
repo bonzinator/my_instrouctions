@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  containers:
+  - name: nginx
+    image: registry.rebrainme.com/workshops/middle/kubernetes-local/newplatform_autochecks/nginx:latest
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    volumeMounts:
+    - name: nginx-config
+      mountPath: /etc/nginx/nginx.conf
+      subPath: nginx.conf
+    env:
+    - name: COOL_USER
+      valueFrom:
+        secretKeyRef:
+          name: creds
+          key: username
+    - name: COOL_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: creds
+          key: password
+    - name: MY_NODE
+      valueFrom:
+        fieldRef:
+          fieldPath: spec.nodeName
+  imagePullSecrets:
+  - name: regcred
+  volumes:
+  - name: nginx-config
+    configMap:
+      name: nginx-config
+

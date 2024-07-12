@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-ingress
+  namespace: policy-test
+  labels:
+    name: myapp
+    app: pod-ingress
+spec:
+  containers:
+  - name: mynginx
+    image: nginx:stable-alpine3.17
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    securityContext:
+      runAsNonRoot: true
+      allowPrivilegeEscalation: false
+      privileged: false
+      readOnlyRootFilesystem: true
+    ports:
+      - containerPort: 80
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-egress
+  namespace: policy-test
+  labels:
+    name: myapp
+    app: pod-egress
+spec:
+  containers:
+  - name: mynginx
+    image: nginx:stable-alpine3.17
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    securityContext:
+      runAsNonRoot: true
+      allowPrivilegeEscalation: false
+      privileged: false
+      readOnlyRootFilesystem: true
+    ports:
+      - containerPort: 80

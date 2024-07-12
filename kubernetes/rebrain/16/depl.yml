@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-service
+  namespace: default
+  labels:
+    app: my-service
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-service
+  template:
+    metadata:
+      labels:
+        app: my-service
+    spec:
+      containers:
+      - name: my-service
+        image: alpine:3.19
+        command: ["sleep", "3600"]  # Заменяем команду на более обычную для примера
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "500m"  # Используем милликоры для CPU
+          limits:
+            memory: "128Mi"
+            cpu: "500m"  # Используем милликоры для CPU
+
+      

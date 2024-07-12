@@ -1,0 +1,56 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingr-main
+  annotations:
+    # type of authentication
+    nginx.ingress.kubernetes.io/auth-type: basic
+    # name of the secret that contains the user/password definitions
+    nginx.ingress.kubernetes.io/auth-secret: basic-auth-secret
+    # message to display with an appropriate context why the authentication is required
+    nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required - foo'
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: main-158.160.168.111.nip.io
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: svc-dep-main
+            port:
+              number: 8080
+      - path: /secure
+        pathType: Prefix
+        backend:
+          service:
+            name: svc-dep-main
+            port:
+              number: 8443
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingr-canary
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: canary-158.160.168.111.nip.io
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: svc-dep-canary
+            port:
+              number: 9090
+      - path: /secure
+        pathType: Prefix
+        backend:
+          service:
+            name: svc-dep-canary
+            port:
+              number: 9443

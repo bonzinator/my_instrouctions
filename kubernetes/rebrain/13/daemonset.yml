@@ -1,0 +1,27 @@
+# kubectl label nodes kube-v3-12-3-vwsdb ingress=true
+# kubectl get nodes -o json | jq '.items[] | {name: .metadata.name, taints: .spec.taints}'
+
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: my-special-service
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: my-special-service
+  template:
+    metadata:
+      labels:
+        app: my-special-service
+    spec:
+      tolerations:
+      - key: "node-role.kubernetes.io/control-plane"
+        effect: "NoSchedule"
+      nodeSelector:
+        ingress: "true"
+      containers:
+      - name: my-container
+        image: nginx:latest
+        ports:
+        - containerPort: 80

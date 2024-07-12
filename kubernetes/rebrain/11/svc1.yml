@@ -1,0 +1,19 @@
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: production
+  labels:
+    app: production
+spec:
+  ports:
+  - port: 8080
+    targetPort: 80
+    protocol: TCP
+    name: http
+  - port: 8443
+    targetPort: 443
+    protocol: TCP
+    name: https
+  selector:
+    app: production

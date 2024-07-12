@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-persistent-deployment
+spec:
+  selector:
+    matchLabels:
+      app: my-persistent-deployment
+  template:
+    metadata:
+      labels:
+        app: my-persistent-deployment
+    spec:
+      containers:
+      - name: persistent-container
+        image: alpine:3.19
+        command: ["sleep", "infinity"]
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        volumeMounts:
+          - mountPath: "/mnt/my-storage"
+            name: my-volume
+      volumes:
+        - name: my-volume
+          persistentVolumeClaim:
+            claimName: my-storage
+
+

@@ -1,0 +1,119 @@
+# kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/v0.0.28/deploy/local-path-storage.yaml
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: zookeeper
+  namespace: default
+spec:
+  serviceName: zookeeper-headless
+  replicas: 3
+  selector:
+    matchLabels:
+      app: zookeeper
+  template:
+    metadata:
+      labels:
+        app: zookeeper
+    spec:
+      containers:
+      - name: zookeeper
+        image: bitnami/zookeeper:latest
+        ports:
+        - containerPort: 2181
+          name: client
+        - containerPort: 2888
+          name: peer
+        - containerPort: 3888
+          name: leader-election
+        volumeMounts:
+        - name: data
+          mountPath: /bitnami/zookeeper/data
+        - name: logs
+          mountPath: /bitnami/zookeeper/logs
+        env:
+        - name: ALLOW_ANONYMOUS_LOGIN
+          value: "yes"
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: local-path
+      resources:
+        requests:
+          storage: 1Gi
+  - metadata:
+      name: logs
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: local-path
+      resources:
+        requests:
+          storage: 1Gi
+
+---
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: kafka-sts
+  namespace: default
+spec:
+  serviceName: kafka-headless
+  replicas: 3
+  selector:
+    matchLabels:
+      app: kafka
+  template:
+    metadata:
+      labels:
+        app: kafka
+    spec:
+      containers:
+      - name: kafka
+        image: bitnami/kafka:latest
+        ports:
+        - containerPort: 9092
+          name: kafka
+        env:
+        - name: KAFKA_CFG_ZOOKEEPER_CONNECT
+          value: "zookeeper:2181"
+        - name: ALLOW_PLAINTEXT_LISTENER
+          value: "yes"
+        volumeMounts:
+        - name: kafka-pvc
+          mountPath: /bitnami/kafka/data
+  volumeClaimTemplates:
+  - metadata:
+      name: kafka-pvc
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: local-path
+      resources:
+        requests:
+          storage: 1Gi
+
+# Сюда дополнительно потребуется сервис т.к. кафка отказывается подключаться и вот пример его 
+
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: zookeeper
+#   namespace: default
+#   labels:
+#     app: zookeeper
+# spec:
+#   ports:
+#   - port: 2181
+#     name: client
+#     targetPort: 2181
+#   - port: 2888
+#     name: peer
+#     targetPort: 2888
+#   - port: 3888
+#     name: leader-election
+#     targetPort: 3888
+#   clusterIP: None
+#   selector:
+#     app: zookeeper

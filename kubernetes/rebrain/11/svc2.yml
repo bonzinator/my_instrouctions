@@ -1,0 +1,21 @@
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: canary
+  labels:
+    app: canary
+spec:
+  ports:
+  - port: 9090
+    targetPort: 80
+    protocol: TCP
+    name: http
+  - port: 9443
+    targetPort: 443
+    protocol: TCP
+    name: https
+  selector:
+    app: canary
+
+---
