@@ -1,0 +1,33 @@
+alertmanager:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations: {}
+    labels: {}
+    hosts:
+       - alertmanager.51.250.46.188.nip.io
+
+    paths:
+      - /
+
+grafana:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations: {}
+    labels: {}
+    hosts:
+       - grafana.51.250.46.188.nip.io
+    paths:
+      - /
+
+prometheus:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations: {}
+    labels: {}
+    hosts:
+       - prom.51.250.46.188.nip.io
+    paths:
+      - /

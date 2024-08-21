@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: ns-limit
+  namespace: default
+spec:
+  hard:
+    pods: "20"
+    requests.cpu: "1000m"
+    requests.memory: "1Gi"
+    limits.cpu: "4000m"
+    limits.memory: "4Gi"

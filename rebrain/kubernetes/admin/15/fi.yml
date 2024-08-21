@@ -1,0 +1,29 @@
+fluent-bit:
+  config:
+    outputs: |
+      [OUTPUT]
+          Name es
+          Match kube.*
+          Host elastic-es-http.elasticsearch.svc.cluster.local      # Адрес вашего Elasticsearch сервиса
+          Port 9200                                            # Порт Elasticsearch
+          tls On                                              # Включаем HTTPS
+          tls.verify False                                    # Не проверяем сертификат (если нет CA)
+          HTTP_User elastic                                   # Имя пользователя для доступа к Elasticsearch
+          HTTP_Passwd 11034SDbpWf4213n5GThoRtL               # Пароль для доступа
+          Suppress_Type_Name On                              # Отключение имени типа (для ES 7+)
+          Logstash_Format On                                 # Форматируем как Logstash
+          Retry_Limit False                                  # Отключаем ограничение на повторные попытки
+
+      [OUTPUT]
+          Name es
+          Match host.*
+          Host elastic-es-http.elasticsearch.svc.cluster.local      # Адрес вашего Elasticsearch сервиса
+          Port 9200                                            # Порт Elasticsearch
+          tls On                                              # Включаем HTTPS
+          tls.verify False                                    # Не проверяем сертификат (если нет CA)
+          HTTP_User elastic                                   # Имя пользователя для доступа к Elasticsearch
+          HTTP_Passwd 11034SDbpWf4213n5GThoRtL               # Пароль для доступа
+          Suppress_Type_Name On                              # Отключение имени типа (для ES 7+)
+          Logstash_Format On                                 # Форматируем как Logstash
+          Logstash_Prefix node                               # Префикс для индекса
+          Retry_Limit False                                  # Отключаем ограничение на повторные попытки

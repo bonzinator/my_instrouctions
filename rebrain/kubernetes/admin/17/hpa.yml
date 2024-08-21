@@ -1,0 +1,22 @@
+kind: HorizontalPodAutoscaler
+apiVersion: autoscaling/v2
+metadata:
+  name: hpa-autoscale
+spec:
+  scaleTargetRef:
+    # point the HPA at the sample application
+    # you created above
+    apiVersion: apps/v1
+    kind: Deployment
+    name: autoscale-dp
+  # autoscale between 1 and 10 replicas
+  minReplicas: 1
+  maxReplicas: 10
+  metrics:
+  - type: Pods # у нас метрика в разделе поды pods/http_requests
+    pods:
+      metric:
+        name: http_requests_total
+      target:
+        type: AverageValue
+        averageValue: "1" 

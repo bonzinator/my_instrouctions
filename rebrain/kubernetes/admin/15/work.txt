@@ -1,0 +1,108 @@
+1) Устанавливаем nfs на 3 сервере кластера
+
+mkdir -p /opt/nfs
+apt install nfs-kernel-server -y
+echo "/opt/nfs        *(rw,sync,no_root_squash,no_subtree_check)"  >> /etc/exports
+systemctl enable nfs-kernel-server.service --now
+systemctl reload nfs-kernel-server.service
+
+showmount -e 127.0.0.1
+
+2) На остальных нодах проводим установку клиента
+
+apt install -y nfs-common
+
+3) Дальше устанавливаем провижионер для nfs
+
+helm repo add nfs-subdir-external-provisioner https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
+helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner  \
+   --set nfs.server=<ip адрес 3 сервера> \  
+   --set nfs.path=/opt/nfs \
+   -n nfs-provisioner --create-namespace
+
+**) Проверка
+kubectl -n nfs-provisioner get pods,storageclasses
+NAME                                                   READY   STATUS    RESTARTS   AGE
+pod/nfs-subdir-external-provisioner-6c75c47c47-24g9h   1/1     Running   0          50s
+
+
+4) На 1 плече устанавливаем helm
+curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
+sudo apt-get install apt-transport-https --yes
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
+sudo apt-get update
+sudo apt-get install helm
+
+5) Далее все действия выполняем на 1 плече. 
+
+6) Установливаем cert-manager и ingress-nginx
+
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.1/deploy/static/provider/cloud/deploy.yaml
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.5/cert-manager.yaml
+
+# создаем файл ci.yml и копируем туда содержимое clusterIssues.yml
+kubectl apply -f ci.yml
+
+7) Устанавливаем elastic-operator
+
+helm repo add elastic https://helm.elastic.co
+git clone https://github.com/elastic/cloud-on-k8s
+
+helm upgrade --install -n elastic-system --create-namespace elastic-operator \
+--set config.container-registry=docker.io \
+--set config.containerRepository=elastic \
+--set image.repository=docker.io/elastic/eck-operator \
+--set image.tag=2.12.1 \
+./cloud-on-k8s/deploy/eck-operator
+
+
+**) Проверка
+kubectl -n elastic-system get pods
+NAME                 READY   STATUS    RESTARTS   AGE
+elastic-operator-0   1/1     Running   0          17s  
+
+8) Подготовим values-override.yaml
+
+cd cloud-on-k8s/deploy/eck-stack
+
+Копируем данные с файла values-override.yaml в values-override.yaml
+
+9) По пути cloud-on-k8s/deploy/eck-stack/charts/eck-elasticsearch/values.yaml
+добавляем репозиторий
+
+image: docker.io/library/elasticsearch:8.13.4
+
+10) Применяем файлы конфигурации
+helm upgrade --install -n logging --create-namespace -f values-override.yaml eck . 
+
+**) Проверка 
+kubectl -n logging get pods
+NAME                         READY   STATUS    RESTARTS   AGE
+elastic-es-default-0         1/1     Running   0          7m40s
+kibana-kb-7545984695-mkmqb   1/1     Running   0          7m41s
+
+
+11) В домашней директории создаем файл fi.yml и добавляем в него данные с fi.yml 
+
+# пароль для кибаны добывается из секрета. Логином будет elastic
+kubectl -n logging get secret elastic-es-elastic-user  -o=jsonpath='{.data.elastic}' | base64 --decode; echo
+
+После выполнения команды получим хэш, его укажем в файле fi.yml в блоках 
+HTTP_Passwd pv5qc3l08cwWHw8Od31450dY 
+
+12) Установим fluentd-bit
+
+helm repo add fluent https://fluent.github.io/helm-charts
+
+helm upgrade --install -n logging fluent fluent/fluent-bit -f fl.yaml
+
+**) Проверка
+kubectl -n logging get pods
+NAME                         READY   STATUS    RESTARTS   AGE
+elastic-es-default-0         1/1     Running   0          33m
+fluent-fluent-bit-j6g5w      1/1     Running   0          7s
+fluent-fluent-bit-nqm2c      1/1     Running   0          7s
+fluent-fluent-bit-x6hfq      1/1     Running   0          7s
+kibana-kb-7545984695-mkmqb   1/1     Running   0          33m
+
+13) Далее остается решить проблему с Ingress и в целом все должно работать

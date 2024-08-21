@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: init-db
+  namespace: db
+spec:
+  template:
+    spec:
+      containers:
+      - name: init-db
+        image: mysql:5.7
+        command: ['sh', '-c', 'until mysql -h mysql.db.svc.cluster.local -u myuser -p$MYSQL_ROOT_PASSWORD mydatabase -e "SHOW TABLES;"; do echo "Waiting for database..."; sleep 5; done; mysql -h mysql.db.svc.cluster.local -u myuser -p$MYSQL_ROOT_PASSWORD mydatabase < /docker-entrypoint-initdb.d/speedtest_users.sql']
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: MYSQL_ROOT_PASSWORD
+        volumeMounts:
+        - name: init-sql
+          mountPath: /docker-entrypoint-initdb.d
+      restartPolicy: OnFailure
+      volumes:
+      - name: init-sql
+        configMap:
+          name: init-sql-configmap

@@ -1,0 +1,47 @@
+eck-elasticsearch:
+  fullnameOverride: elastic
+  version: 8.13.4
+  nodeSets:
+  - name: default
+    count: 1
+    config:
+      node.store.allow_mmap: false
+    volumeClaimTemplates:
+    - metadata:
+        name: elasticsearch-data
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 2Gi
+        storageClassName: nfs-client
+    image: docker.io/library/elasticsearch:8.13.4
+
+eck-kibana:
+  fullnameOverride: kibana
+  version: 8.13.4
+  spec:
+    count: 1
+    elasticsearchRef:
+      name: elastic
+      namespace: logging
+    http:
+      service:
+        spec:
+          type: ClusterIP
+    podTemplate:
+      spec:
+        containers:
+        - name: kibana
+          image: docker.io/library/kibana:8.13.4
+          env:
+            - name: NODE_OPTIONS
+              value: "--max-old-space-size=2048"
+          resources:
+            requests:
+              memory: 1Gi
+              cpu: 0.5
+            limits:
+              memory: 2.5Gi
+              cpu: 2
