@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  rabbitmq1:
+    build: ./
+    container_name: rabbitmq1
+#    environment:
+#      - RABBITMQ_SSL_ENABLED=true
+#      - RABBITMQ_DEFAULT_PORT=5671
+    ports:
+      - 5671:5671
+      - 5672:5672
+      - 15672:15672

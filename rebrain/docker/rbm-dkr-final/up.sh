@@ -21,5 +21,6 @@ elif [ $step == 'down' ]; then
 else
     
     echo "Неизвестный параметр. Вы можете использовать 'up' или 'down'"
+    exit 1
 
 fi
